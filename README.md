@@ -1,20 +1,47 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# ExamDesk
 
-# Run and deploy your AI Studio app
+ExamDesk is a modern, responsive, and professional website designed for exam management, assessment tools, custom software solutions, and educational technology services.
 
-This contains everything you need to run your app locally.
+## Overview
 
-View your app in AI Studio: https://ai.studio/apps/89c49c18-8289-4d54-a135-f3ddd2e96f9d
+ExamDesk provides a clean and user-friendly web interface for presenting exam-related services and digital assessment solutions. The website is built with a modern frontend structure and focuses on performance, responsiveness, and a professional user experience.
 
-## Run Locally
+This project is suitable for educational platforms, assessment service providers, software businesses, and portfolio showcase purposes.
 
-**Prerequisites:**  Node.js
+## Features
 
+- Modern and responsive website design
+- Clean landing page layout
+- Exam management and assessment-focused sections
+- Custom software services section
+- Blog page structure
+- Contact page with professional contact details
+- Mobile-friendly interface
+- Fast frontend performance
+- Clean and reusable project structure
+- Suitable for portfolio and freelancing showcase
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## Tech Stack
+
+- React
+- Vite
+- TypeScript
+- JavaScript
+- CSS / Tailwind CSS
+
+## Project Structure
+
+```text
+ExamDesk
+├── assets
+├── src
+├── server
+├── .env.example
+├── .gitignore
+├── index.html
+├── metadata.json
+├── package.json
+├── package-lock.json
+├── README.md
+├── tsconfig.json
+└── vite.config
