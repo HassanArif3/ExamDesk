@@ -1,0 +1,107 @@
+@import "tailwindcss";
+
+@theme {
+  /* Legacy primary aliases for compatibility just in case */
+  --color-primary-50: #eff6ff;
+  --color-primary-100: #dbeafe;
+  --color-primary-200: #bfdbfe;
+  --color-primary-300: #93c5fd;
+  --color-primary-400: #60a5fa;
+  --color-primary-500: #3b82f6;
+  --color-primary-600: #2563eb;
+  --color-primary-700: #1d4ed8;
+  --color-primary-800: #1e40af;
+  --color-primary-900: #1e3a8a;
+}
+
+@layer base {
+  body {
+    @apply bg-slate-50 text-slate-900 font-sans antialiased;
+  }
+}
+
+/* Print Styles */
+@media print {
+  @page {
+    margin: 0;
+    size: A4;
+  }
+  body {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    background-color: white !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-only {
+    display: block !important;
+  }
+  .page-break-after {
+    page-break-after: always;
+  }
+}
+
+/* Hide scrollbar for previews */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* Custom Utilities */
+.glass-nav {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(195, 198, 215, 0.1);
+}
+
+.shadow-level-1 {
+  box-shadow: 0 4px 6px -1px rgb(11 28 48 / 0.05), 0 2px 4px -2px rgb(11 28 48 / 0.05);
+}
+
+.shadow-level-2 {
+  box-shadow: 0 10px 15px -3px rgb(11 28 48 / 0.08);
+}
+
+@keyframes orb-float {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+}
+
+.animate-orb-float {
+  animation: orb-float 20s ease-in-out infinite;
+}
+
+.animate-orb-float-delayed {
+  animation: orb-float 25s ease-in-out infinite;
+  animation-delay: -5s;
+}
+
+@keyframes grid-fade {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.6; }
+}
+
+.animate-grid-fade {
+  animation: grid-fade 10s ease-in-out infinite;
+}
+
+.edtech-input {
+  @apply min-h-[48px] px-4 rounded-xl bg-slate-50 border border-slate-200 transition-all duration-200 text-slate-900 font-sans w-full shadow-sm;
+}
+.edtech-input:focus {
+  @apply bg-white border-blue-500 outline-none ring-4 ring-blue-500/10;
+}
+.edtech-input::placeholder {
+  @apply text-slate-400;
+}
