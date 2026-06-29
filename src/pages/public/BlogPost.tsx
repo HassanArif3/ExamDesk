@@ -2,6 +2,7 @@ import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Calendar, User, ArrowLeft } from 'lucide-react';
 import { motion } from 'motion/react';
+import TableOfContents from '../../components/blog/TableOfContents';
 
 const BLOG_POSTS: Record<string, any> = {
   'how-to-manage-school-exams-efficiently': {
@@ -84,12 +85,14 @@ export default function BlogPost() {
 
   return (
     <div className="flex flex-col w-full font-sans">
-      <main className="flex-1 py-16 px-6 lg:px-12">
+      <main className="flex-1 py-16 px-6 lg:px-12 max-w-6xl mx-auto w-full flex gap-8 items-start">
+        <TableOfContents />
+        
         <motion.article 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="max-w-4xl mx-auto bg-white rounded-[2.5rem] shadow-xl border border-slate-200 overflow-hidden"
+          className="flex-1 bg-white rounded-[2.5rem] shadow-xl border border-slate-200 overflow-hidden"
         >
           <div className="h-80 sm:h-[28rem] relative group">
             <img src={post.image} alt={post.title} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />

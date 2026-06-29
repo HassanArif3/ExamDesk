@@ -1,14 +1,97 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { TOOLS } from "../../data/toolsData";
 import * as Icons from "lucide-react";
+
+export function CanvasParticles() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let animationFrameId: number;
+    let width = (canvas.width = canvas.offsetWidth);
+    let height = (canvas.height = canvas.offsetHeight);
+
+    const particles: Array<{ x: number; y: number; vx: number; vy: number; r: number }> = [];
+    const count = 25;
+
+    for (let i = 0; i < count; i++) {
+      particles.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
+        r: Math.random() * 2.5 + 1
+      });
+    }
+
+    const handleResize = () => {
+      if (!canvas) return;
+      width = canvas.width = canvas.offsetWidth;
+      height = canvas.height = canvas.offsetHeight;
+    };
+    window.addEventListener('resize', handleResize);
+
+    const draw = () => {
+      ctx.clearRect(0, 0, width, height);
+      ctx.fillStyle = 'rgba(37, 99, 235, 0.12)';
+
+      particles.forEach((p) => {
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if (p.x < 0 || p.x > width) p.vx *= -1;
+        if (p.y < 0 || p.y > height) p.vy *= -1;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      animationFrameId = requestAnimationFrame(draw);
+    };
+
+    draw();
+
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none" />;
+}
+
+export function AnimatedCounter({ target, duration = 1500, suffix = "" }) {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    let startTimestamp: number | null = null;
+    const step = (timestamp: number) => {
+      if (!startTimestamp) startTimestamp = timestamp;
+      const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+      setCount(Math.floor(progress * target));
+      if (progress < 1) {
+        window.requestAnimationFrame(step);
+      }
+    };
+    window.requestAnimationFrame(step);
+  }, [target, duration]);
+
+  return <span>{count}{suffix}</span>;
+}
 
 export default function Home() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
       <section className="relative overflow-hidden pt-16 md:pt-24 pb-32">
+        <CanvasParticles />
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:32px_32px]"></div>
         <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[400px] w-[600px] rounded-full bg-blue-500/20 opacity-40 blur-[120px]"></div>
         
@@ -160,22 +243,22 @@ export default function Home() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             <div className="flex flex-col items-center justify-center text-center space-y-2">
                <div className="p-3 bg-blue-100 rounded-2xl text-blue-600 mb-2"><Icons.School className="h-6 w-6" /></div>
-               <div className="text-3xl font-black text-slate-900">10+</div>
+               <div className="text-3xl font-black text-slate-900"><AnimatedCounter target={10} suffix="+" /></div>
                <div className="text-xs font-bold text-slate-500 uppercase tracking-wider">School Tools</div>
             </div>
             <div className="flex flex-col items-center justify-center text-center space-y-2">
                <div className="p-3 bg-indigo-100 rounded-2xl text-indigo-600 mb-2"><Icons.FileCheck className="h-6 w-6" /></div>
-               <div className="text-3xl font-black text-slate-900">100%</div>
+               <div className="text-3xl font-black text-slate-900"><AnimatedCounter target={100} suffix="%" /></div>
                <div className="text-xs font-bold text-slate-500 uppercase tracking-wider">Print Ready</div>
             </div>
             <div className="flex flex-col items-center justify-center text-center space-y-2">
                <div className="p-3 bg-emerald-100 rounded-2xl text-emerald-600 mb-2"><Icons.Download className="h-6 w-6" /></div>
-               <div className="text-3xl font-black text-slate-900">Free</div>
+               <div className="text-3xl font-black text-slate-900"><AnimatedCounter target={100} suffix="% Free" /></div>
                <div className="text-xs font-bold text-slate-500 uppercase tracking-wider">PDF Export</div>
             </div>
             <div className="flex flex-col items-center justify-center text-center space-y-2">
                <div className="p-3 bg-amber-100 rounded-2xl text-amber-600 mb-2"><Icons.Smartphone className="h-6 w-6" /></div>
-               <div className="text-3xl font-black text-slate-900">Mobile</div>
+               <div className="text-3xl font-black text-slate-900"><AnimatedCounter target={100} suffix="% Mobile" /></div>
                <div className="text-xs font-bold text-slate-500 uppercase tracking-wider">Friendly UI</div>
             </div>
           </div>
